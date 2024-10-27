@@ -30,7 +30,7 @@ Route::post('/next-department', [PatientController::class, 'nextDepartment'])->n
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
 Route::post('login', ['as' => '', 'uses' => 'Auth\LoginController@login']);
 Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
-Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+//Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
 
 // Password Reset Routes...
 Route::post('password/email', ['as' => 'password.email', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);

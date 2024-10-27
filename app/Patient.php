@@ -13,6 +13,8 @@ class Patient extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
 
+    protected $guarded = [];
+
     use SoftDeletes;
 
     public function history()

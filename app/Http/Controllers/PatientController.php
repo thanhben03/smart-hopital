@@ -304,24 +304,24 @@ class PatientController extends Controller
         $data = $request->all();
         $client = new Client();
         $department = DB::table('departments')->where('id', '=', $data['department'])->first();
-
-        $response = $client->post('crow-wondrous-asp.ngrok-free.app/print', [
-            'stt' => '123',
-            'fullname' => $this->removeVietnameseAccents($data['fullname']),
-            'cccd' => $this->removeVietnameseAccents($data['cccd']),
-            'gender' => $this->removeVietnameseAccents($data['gender']),
-            'birthday' => $this->removeVietnameseAccents($data['birthday']),
-            'address' => $this->removeVietnameseAccents($data['address']),
-//            'email' => $this->removeVietnameseAccents($data['email']),
-            'phone' => $this->removeVietnameseAccents($data['phone']),
-            'arrival_time' => Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString(),
-            'department' => $this->removeVietnameseAccents($department->department_name),
-            'trieu_chung' => $this->removeVietnameseAccents($data['trieu_chung']),
-        ]);
+//        $response = $client->post('crow-wondrous-asp.ngrok-free.app/print', [
+//            'stt' => '123',
+//            'fullname' => $this->removeVietnameseAccents($data['fullname']),
+//            'cccd' => $this->removeVietnameseAccents($data['cccd']),
+//            'gender' => $this->removeVietnameseAccents($data['gender']),
+//            'birthday' => $this->removeVietnameseAccents($data['birthday']),
+//            'address' => $this->removeVietnameseAccents($data['address']),
+////            'email' => $this->removeVietnameseAccents($data['email']),
+//            'phone' => $this->removeVietnameseAccents($data['phone']),
+//            'arrival_time' => Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString(),
+//            'department' => $this->removeVietnameseAccents($department->department_name),
+//            'trieu_chung' => $this->removeVietnameseAccents($data['trieu_chung']),
+//        ]);
+        $id = Patient::query()->orderBy('id', 'desc')->first()->id;
         $patient = Patient::query()->where('nic', '=', $data['cccd'])->first();
-
         if (!$patient) {
             $patient = Patient::query()->create([
+                'id' => $id + 1,
                 'name' => $data['fullname'],
                 'address' => $data['address'],
                 'sex' => $data['gender'] == 'Nam' ? 'Male' : 'Female',
@@ -330,13 +330,12 @@ class PatientController extends Controller
                 'nic' => $data['cccd'],
             ]);
         }
-
         $this->registerPatientVisit($patient->id, $data['trieu_chung'], $department->id);
-        if ($response->getStatusCode() == 200) {
-            return $response->getBody()->getContents();
-        } else {
-            return response()->json(['error' => 'API request failed'], 500);
-        }
+//        if ($response->getStatusCode() == 200) {
+//            return $response->getBody()->getContents();
+//        } else {
+//            return response()->json(['error' => 'API request failed'], 500);
+//        }
 
     }
 
